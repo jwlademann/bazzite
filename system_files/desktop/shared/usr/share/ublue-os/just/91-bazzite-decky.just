@@ -412,7 +412,7 @@ get-framegen ACTION="":
     REPO_OWNER="xXJSONDeruloXx"
     REPO_NAME="Decky-Framegen"
     PLUGIN_NAME="Decky-Framegen"
-    FILENAME="Decky.Framegen.zip"
+    FILENAME="Decky-Framegen.zip"
     PLUGIN_BASE_DIR="$HOME/homebrew/plugins"
     PLUGIN_DIR="$HOME/homebrew/plugins/Decky-Framegen"
     get_status_token() {
@@ -461,14 +461,15 @@ get-framegen ACTION="":
             echo "Removing existing $PLUGIN_NAME directory..."
             sudo rm -rf "$PLUGIN_DIR"
         fi
-        echo "Downloading $PLUGIN_NAME from $plugin_url..."
-        local temp_file="plugin_file"
-        if ! timeout 60 curl -L -o "$temp_file" "$plugin_url"; then
-            echo "Download failed or timed out!"
-            cd - > /dev/null
-            rm -rf "$temp_dir"
-            return 1
-        fi
+       echo "Downloading $PLUGIN_NAME from $plugin_url..."
+       local temp_file="$FILENAME"
+
+       if ! timeout 120 curl -L -o "$temp_file" "$plugin_url"; then
+           echo "Download failed or timed out!"
+           cd - > /dev/null
+           rm -rf "$temp_dir"
+           return 1
+       fi
         echo "Extracting $PLUGIN_NAME..."
         if [[ "$plugin_url" == *.tar.gz ]]; then
             if ! tar -xzf "$temp_file"; then
